@@ -11,7 +11,7 @@ This repository contains a single, detailed CV built with the [Awesome CV](https
 - `coverletter.tex` is an optional companion document using the same class.
 - `Makefile` provides repeatable build and clean commands.
 
-The personal details in the template are sample data. Replace them before using or publishing the generated document.
+The document fields contain concise placeholders. Replace them before using or publishing the generated document.
 
 ## CV vs. resume
 
