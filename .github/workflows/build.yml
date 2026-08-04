@@ -1,0 +1,32 @@
+name: Build documents
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build and inspect PDFs
+        uses: xu-cheng/texlive-action@v3
+        with:
+          texlive_version: 2025
+          os: debian
+          extra_system_packages: poppler-utils
+          run: |
+            mkdir -p build
+            for document in cv resume academic-cv coverletter academic-coverletter; do
+              mkdir -p "build/$document"
+              TEXINPUTS=src: latexmk -lualatex -interaction=nonstopmode -halt-on-error -file-line-error -outdir=build -auxdir="build/$document" "src/$document.tex"
+            done
+            python3 tools/check_ats.py build
+
+      - name: Upload generated PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: cv-documents
+          path: build/*.pdf
