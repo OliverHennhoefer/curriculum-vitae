@@ -1,27 +1,10 @@
-%% Start of file `awesome-cv.cls'.
-% Awesome CV Class File
-%
-% This class has been downloaded from:
-% https://github.com/posquit0/Awesome-CV
-%
-% Author:
-% Claud D. Park <posquit0.bj@gmail.com>
-% http://www.posquit0.com
-%
-% Notes:
-% 1) This class file defines the structure and layout of the CV document (cv.tex).
-% 2) It has been written in such a way that under most circumstances you
-% should not need to edit it.
-%
-% Class license:
-% LPPL v1.3c (http://www.latex-project.org/lppl)
-%
+% Based on Awesome CV: https://github.com/posquit0/Awesome-CV
 
 
 %-------------------------------------------------------------------------------
 %                Identification
 %-------------------------------------------------------------------------------
-\ProvidesClass{awesome-cv}[2017/02/05 v1.6.1 Awesome Curriculum Vitae Class]
+\ProvidesClass{awesome-cv}[2026/08/04 Curriculum Vitae Class]
 \NeedsTeXFormat{LaTeX2e}
 
 
@@ -217,7 +200,7 @@
 %-------------------------------------------------------------------------------
 %                Commands for personal information
 %-------------------------------------------------------------------------------
-% Reserve an optional header column without loading or rendering an image.
+% Reserve an optional header column.
 % Usage: \reserveheadercolumn[left|right]
 \newcommand{\reserveheadercolumn}[1][left]{%
   \def\@headercolumnreserved{}%
