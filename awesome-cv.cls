@@ -105,8 +105,6 @@
   FontFace={l}{n}{Font=* Light},
   FontFace={l}{it}{Font=* Light Italic},
 ]
-% Needed for the photo ID
-\RequirePackage[skins]{tcolorbox}
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
 % Needed to deal hyperlink
@@ -219,29 +217,13 @@
 %-------------------------------------------------------------------------------
 %                Commands for personal information
 %-------------------------------------------------------------------------------
-% Define photo ID
-% Usage: \photo[circle|rectangle,edge|noedge,left|right]{<path-to-image>}
-\newcommand{\photo}[2][circle,edge,left]{%
-  \def\@photo{#2}
-  \@for\tmp:=#1\do{%
-    \ifthenelse{\equal{\tmp}{circle} \or \equal{\tmp}{rectangle}}%
-      {\let\@photoshape\tmp}{}%
-    \ifthenelse{\equal{\tmp}{edge} \or \equal{\tmp}{noedge}}%
-      {\let\@photoedge\tmp}{}%
-    \ifthenelse{\equal{\tmp}{left} \or \equal{\tmp}{right}}%
-      {\let\@photoalign\tmp}{}%
-  }%
+% Reserve an optional header column without loading or rendering an image.
+% Usage: \reserveheadercolumn[left|right]
+\newcommand{\reserveheadercolumn}[1][left]{%
+  \def\@headercolumnreserved{}%
+  \def\@headercolumnalign{#1}%
 }
-\def\@photoshape{circle}
-\def\@photoedge{edge}
-\def\@photoalign{left}
-
-% Reserve the photo column without loading or rendering an image.
-% Usage: \reservephoto[left|right]
-\newcommand{\reservephoto}[1][left]{%
-  \def\@photo{}%
-  \def\@photoalign{#1}%
-}
+\def\@headercolumnalign{left}
 
 % Define writer's name
 % Usage: \name{<firstname>}{<lastname>}
@@ -474,35 +456,22 @@
 % Define a header for CV
 % Usage: \makecvheader
 \newcommand*{\makecvheader}[1][C]{%
-  \newcommand*{\drawphoto}{%
-    \ifthenelse{\isundefined{\@photo}}{}{%
-      \newlength{\photodim}
-      \ifthenelse{\equal{\@photoshape}{circle}}%
-        {\setlength{\photodim}{1.3cm}}%
-        {\setlength{\photodim}{1.8cm}}%
-      \ifthenelse{\equal{\@photo}{}}%
-        {\rule{0pt}{2\photodim}}%
-        {%
-          \ifthenelse{\equal{\@photoedge}{edge}}%
-            {\def\@photoborder{black}}%
-            {\def\@photoborder{none}}%
-        \begin{tikzpicture}%
-          \node[\@photoshape, draw=\@photoborder, line width=0.3mm, inner sep=\photodim, fill overzoom image=\@photo] () {};
-        \end{tikzpicture}
-        }%
+  \newcommand*{\drawheadercolumn}{%
+    \ifthenelse{\isundefined{\@headercolumnreserved}}{}{%
+      \rule{0pt}{2.6cm}%
     }%
   }
   \newlength{\headertextwidth}
-  \newlength{\headerphotowidth}
-  \ifthenelse{\isundefined{\@photo}}{
+  \newlength{\headercolumnwidth}
+  \ifthenelse{\isundefined{\@headercolumnreserved}}{
     \setlength{\headertextwidth}{\textwidth}
-    \setlength{\headerphotowidth}{0cm}
+    \setlength{\headercolumnwidth}{0cm}
   }{%
     \setlength{\headertextwidth}{0.76\textwidth}
-    \setlength{\headerphotowidth}{0.24\textwidth}
+    \setlength{\headercolumnwidth}{0.24\textwidth}
   }%
-  \begin{minipage}[c]{\headerphotowidth}%
-    \ifthenelse{\equal{\@photoalign}{left}}{\raggedright\drawphoto}{}
+  \begin{minipage}[c]{\headercolumnwidth}%
+    \ifthenelse{\equal{\@headercolumnalign}{left}}{\raggedright\drawheadercolumn}{}
   \end{minipage}
   \begin{minipage}[c]{\headertextwidth}
     \ifthenelse{\equal{#1}{L}}{\raggedright}{\ifthenelse{\equal{#1}{R}}{\raggedleft}{\centering}}
@@ -662,8 +631,8 @@
       {}%
       {\headerquotestyle{\@quote\\}\vspace{\acvHeaderAfterQuoteSkip}}%
   \end{minipage}%
-  \begin{minipage}[c]{\headerphotowidth}%
-    \ifthenelse{\equal{\@photoalign}{right}}{\raggedleft\drawphoto}{}
+  \begin{minipage}[c]{\headercolumnwidth}%
+    \ifthenelse{\equal{\@headercolumnalign}{right}}{\raggedleft\drawheadercolumn}{}
   \end{minipage}
 }
 

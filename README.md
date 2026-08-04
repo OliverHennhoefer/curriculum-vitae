@@ -6,7 +6,7 @@ This repository contains a single, detailed CV built with the [Awesome CV](https
 
 - `cv.tex` is the document entry point.
 - `cv/` contains the CV sections, split into small editable files.
-- `assets/` contains images used by the documents.
+- The documents are intentionally photo-free; no image assets are required.
 - `awesome-cv.cls` provides the layout and styling; its single `awesome-color` definition controls the accent color.
 - `coverletter.tex` is an optional companion document using the same class.
 - `Makefile` provides repeatable build and clean commands.
