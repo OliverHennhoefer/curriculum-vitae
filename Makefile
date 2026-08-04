@@ -13,7 +13,7 @@ cv.pdf: $(CV_SOURCES)
 
 coverletter: coverletter.pdf
 
-coverletter.pdf: coverletter.tex awesome-cv.cls assets/profile.png
+coverletter.pdf: coverletter.tex awesome-cv.cls
 	$(LATEX) -interaction=nonstopmode -halt-on-error $<
 	$(LATEX) -interaction=nonstopmode -halt-on-error $<
 
