@@ -1,0 +1,53 @@
+% !TEX program = lualatex
+%!TEX encoding = UTF-8 Unicode
+
+
+%-------------------------------------------------------------------------------
+% CONFIGURATIONS
+%-------------------------------------------------------------------------------
+% A4 paper size by default, use 'letterpaper' for US letter
+\documentclass[11pt, a4paper]{curriculum-vitae}
+
+% Keep the established page geometry and visual design.
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+
+%-------------------------------------------------------------------------------
+% SHARED INFORMATION
+%-------------------------------------------------------------------------------
+\input{data/personal.tex}
+\input{cv/macros.tex}
+
+\position{Professional Role}
+\cvpdfmetadata
+  {\cvfullname\space--\space{}Resume}
+  {\cvfullname}
+  {Targeted professional resume}
+  {resume, professional experience, skills, projects}
+
+
+%-------------------------------------------------------------------------------
+\begin{document}
+
+\makecvheader
+
+\makecvfooter
+  {\today}
+  {\cvfullname~~~·~~~Resume}
+  {\thepage}
+
+
+%-------------------------------------------------------------------------------
+% SELECTED INDUSTRY CONTENT
+%-------------------------------------------------------------------------------
+\input{cv/experience.tex}
+\input{cv/skills.tex}
+\input{cv/projects.tex}
+\input{cv/education.tex}
+\input{cv/certifications.tex}
+
+
+%-------------------------------------------------------------------------------
+\end{document}

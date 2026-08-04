@@ -1,10 +1,10 @@
-% Based on Awesome CV: https://github.com/posquit0/Awesome-CV
+% Attribution: portions of this class originate from posquit0/Awesome-CV.
 
 
 %-------------------------------------------------------------------------------
 %                Identification
 %-------------------------------------------------------------------------------
-\ProvidesClass{awesome-cv}[2026/08/04 Curriculum Vitae Class]
+\ProvidesClass{curriculum-vitae}[2026/08/04 Curriculum Vitae Class]
 \NeedsTeXFormat{LaTeX2e}
 
 
@@ -64,30 +64,40 @@
 \defaultfontfeatures{
   Renderer=HarfBuzz,
 }
-\setmainfont{Source Sans 3}[
-  UprightFont=*,
-  ItalicFont=* Italic,
-  BoldFont=* Bold,
-  BoldItalicFont=* Bold Italic,
-  FontFace={l}{n}{Font=* Light},
-  FontFace={l}{it}{Font=* Light Italic},
-]
-\setsansfont{Source Sans 3}[
-  UprightFont=*,
-  ItalicFont=* Italic,
-  BoldFont=* Bold,
-  BoldItalicFont=* Bold Italic,
-  FontFace={l}{n}{Font=* Light},
-  FontFace={l}{it}{Font=* Light Italic},
-]
-\newfontfamily\roboto{Roboto}[
-  UprightFont=*,
-  ItalicFont=* Italic,
-  BoldFont=* Bold,
-  BoldItalicFont=* Bold Italic,
-  FontFace={l}{n}{Font=* Light},
-  FontFace={l}{it}{Font=* Light Italic},
-]
+\IfFontExistsTF{Source Sans 3}{%
+  \setmainfont{Source Sans 3}[
+    UprightFont=*,
+    ItalicFont=* Italic,
+    BoldFont=* Bold,
+    BoldItalicFont=* Bold Italic,
+    FontFace={l}{n}{Font=* Light},
+    FontFace={l}{it}{Font=* Light Italic},
+  ]%
+  \setsansfont{Source Sans 3}[
+    UprightFont=*,
+    ItalicFont=* Italic,
+    BoldFont=* Bold,
+    BoldItalicFont=* Bold Italic,
+    FontFace={l}{n}{Font=* Light},
+    FontFace={l}{it}{Font=* Light Italic},
+  ]%
+}{%
+  % Keep the layout buildable when the optional Source Sans 3 font is absent.
+  \setmainfont{Latin Modern Sans}%
+  \setsansfont{Latin Modern Sans}%
+}%
+\IfFontExistsTF{Roboto}{%
+  \newfontfamily\roboto{Roboto}[
+    UprightFont=*,
+    ItalicFont=* Italic,
+    BoldFont=* Bold,
+    BoldItalicFont=* Bold Italic,
+    FontFace={l}{n}{Font=* Light},
+    FontFace={l}{it}{Font=* Light Italic},
+  ]%
+}{%
+  \newfontfamily\roboto{Latin Modern Sans}%
+}%
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
 % Needed to deal hyperlink
@@ -97,6 +107,16 @@
   pdfauthor={},
   pdfsubject={},
   pdfkeywords={}
+}
+% Set searchable PDF metadata without affecting the rendered document.
+% Usage: \cvpdfmetadata{<title>}{<author>}{<subject>}{<keywords>}
+\newcommand*{\cvpdfmetadata}[4]{%
+  \hypersetup{%
+    pdftitle={#1},
+    pdfauthor={#2},
+    pdfsubject={#3},
+    pdfkeywords={#4}%
+  }%
 }
 % Solves issues Warning: File `cv.out' has changed
 \RequirePackage{bookmark}
@@ -133,7 +153,7 @@
 % Change this value at will; all accents and section dividers use it.
 % The value uses xcolor's HTML syntax. To use RGB instead, change HTML to RGB
 % and provide three comma-separated values.
-\definecolor{awesome-color}{HTML}{DC3522}
+\definecolor{cv-accent-color}{HTML}{DC3522}
 
 %-------------------------------------------------------------------------------
 %                Configuration for fonts
@@ -151,10 +171,9 @@
 % For fundamental structures
 \newcommand*{\headerfirstnamestyle}[1]{{\fontsize{32pt}{1em}\headerfontlight\color{black} #1}}
 \newcommand*{\headerlastnamestyle}[1]{{\fontsize{32pt}{1em}\headerfont\bfseries\color{black} #1}}
-\newcommand*{\headerpositionstyle}[1]{{\fontsize{7.6pt}{1em}\bodyfont\scshape\color{awesome-color} #1}}
+\newcommand*{\headerpositionstyle}[1]{{\fontsize{7.6pt}{1em}\bodyfont\scshape\color{cv-accent-color} #1}}
 \newcommand*{\headeraddressstyle}[1]{{\fontsize{8pt}{1em}\headerfont\itshape\color{black} #1}}
 \newcommand*{\headersocialstyle}[1]{{\fontsize{6.8pt}{1em}\headerfont\color{black} #1}}
-\newcommand*{\headerquotestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\itshape\color{black} #1}}
 \newcommand*{\footerstyle}[1]{{\fontsize{8pt}{1em}\footerfont\scshape\color{black} #1}}
 \newcommand*{\sectionstyleface}[1]{{\fontsize{16pt}{1em}\bodyfont\bfseries #1}}
 \newcommand*{\sectionstyle}[1]{{\color{black}\sectionstyleface{#1}}}
@@ -165,21 +184,21 @@
 \newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{black} #1}}
 \newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\bodyfont\scshape\color{black} #1}}
 \newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\slshape\color{black} #1}}
-\newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{awesome-color} #1}}
+\newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{cv-accent-color} #1}}
 \newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{black} #1}}
 
 % For elements of subentry
 \newcommand*{\subentrytitlestyle}[1]{{\fontsize{8pt}{1em}\bodyfont\mdseries\color{black} #1}}
 \newcommand*{\subentrypositionstyle}[1]{{\fontsize{7pt}{1em}\bodyfont\scshape\color{black} #1}}
 \newcommand*{\subentrydatestyle}[1]{{\fontsize{7pt}{1em}\bodyfontlight\slshape\color{black} #1}}
-\newcommand*{\subentrylocationstyle}[1]{{\fontsize{7pt}{1em}\bodyfontlight\slshape\color{awesome-color} #1}}
+\newcommand*{\subentrylocationstyle}[1]{{\fontsize{7pt}{1em}\bodyfontlight\slshape\color{cv-accent-color} #1}}
 \newcommand*{\subdescriptionstyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\upshape\color{black} #1}}
 
 % For elements of honor
 \newcommand*{\honortitlestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{black} #1}}
 \newcommand*{\honorpositionstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\bfseries\color{black} #1}}
 \newcommand*{\honordatestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{black} #1}}
-\newcommand*{\honorlocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{awesome-color} #1}}
+\newcommand*{\honorlocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{cv-accent-color} #1}}
 
 % For elements of skill
 \newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{black} #1}}
@@ -355,10 +374,6 @@
 % Usage: \extrainfo{<extra information>}
 \newcommand*{\extrainfo}[1]{\def\@extrainfo{#1}}
 
-% Defines writer's quote (optional)
-% Usage: \quote{<quote>}
-\renewcommand*{\quote}[1]{\def\@quote{#1}}
-
 % Defines recipient's information (cover letter only)
 % Usage: \recipient{<recipient name>}{<recipient address>}
 % Usage: \recipientname{<recipient name>}
@@ -405,7 +420,6 @@
 \newcommand{\acvHeaderIconSep}{\space}
 \newcommand{\acvHeaderSocialSep}{\BeginAccSupp{ActualText={}}\quad\textbar\quad\EndAccSupp{}}
 \newcommand{\acvHeaderAfterSocialSkip}{6mm}
-\newcommand{\acvHeaderAfterQuoteSkip}{5mm}
 
 % Others
 \newcommand{\acvSectionTopSkip}{3mm}
@@ -610,9 +624,6 @@
           \@extrainfo%
         }%
     } \\[\acvHeaderAfterSocialSkip]%
-    \ifthenelse{\isundefined{\@quote}}%
-      {}%
-      {\headerquotestyle{\@quote\\}\vspace{\acvHeaderAfterQuoteSkip}}%
   \end{minipage}%
   \begin{minipage}[c]{\headercolumnwidth}%
     \ifthenelse{\equal{\@headercolumnalign}{right}}{\raggedleft\drawheadercolumn}{}
@@ -634,7 +645,7 @@
   \vspace{\acvSectionTopSkip}
   \sectionstyle{#1}
   \phantomsection
-  \color{awesome-color}\vhrulefill{0.9pt}
+  \color{cv-accent-color}\vhrulefill{0.9pt}
 }
 
 % Define a subsection for CV
@@ -688,19 +699,23 @@
 }
 % Define a subentry of cv information
 % Usage: \cvsubentry{<position>}{<title>}{<date>}{<description>}
+\newlength{\cvsubentrydescriptionwidth}
 \newcommand*{\cvsubentry}[4]{%
+  % Preserve the current A4 width while allowing alternate paper sizes.
+  \setlength{\cvsubentrydescriptionwidth}{\textwidth}
+  \addtolength{\cvsubentrydescriptionwidth}{-1.2cm}
   \setlength\tabcolsep{0pt}
   \setlength{\extrarowheight}{0pt}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
     \setlength\leftskip{0.2cm}
     \subentrytitlestyle{#2} & \ifthenelse{\equal{#1}{}}
-      {\subentrydatestyle{#3}}{}
+      {\subentrydatestyle{#3} \\}{\\}
     \ifthenelse{\equal{#1}{}}
       {}
       {\subentrypositionstyle{#1} & \subentrydatestyle{#3} \\}
-    \ifthenelse{\equal{#4}{}}
+    \ifstrempty{#4}
       {}
-      {\multicolumn{2}{L{17.0cm}}{\subdescriptionstyle{#4}} \\}
+      {\rlap{\parbox[t]{\cvsubentrydescriptionwidth}{\subdescriptionstyle{#4}}} & \\}
   \end{tabular*}
 }
 
@@ -768,7 +783,7 @@
   \par\addvspace{2.5ex}
   \phantomsection{}
   \lettersectionstyle{#1}
-  \color{awesome-color}\vhrulefill{0.9pt}
+  \color{cv-accent-color}\vhrulefill{0.9pt}
   \par\nobreak\addvspace{0.4ex}
   \lettertextstyle
 }

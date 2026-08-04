@@ -1,0 +1,57 @@
+% !TEX program = lualatex
+%!TEX encoding = UTF-8 Unicode
+
+
+%-------------------------------------------------------------------------------
+% CONFIGURATIONS
+%-------------------------------------------------------------------------------
+% A4 paper size by default, use 'letterpaper' for US letter
+\documentclass[11pt, a4paper]{curriculum-vitae}
+
+% Keep the established page geometry and visual design.
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+
+% The accent color is configured once in the class as cv-accent-color.
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+
+%-------------------------------------------------------------------------------
+% SHARED INFORMATION
+%-------------------------------------------------------------------------------
+\input{data/personal.tex}
+\input{cv/macros.tex}
+
+\position{Professional Role}
+\cvpdfmetadata
+  {\cvfullname\space--\space{}Curriculum Vitae}
+  {\cvfullname}
+  {Professional curriculum vitae}
+  {curriculum vitae, professional experience, education, skills}
+
+
+%-------------------------------------------------------------------------------
+\begin{document}
+
+\makecvheader
+
+\makecvfooter
+  {\today}
+  {\cvfullname~~~·~~~Curriculum Vitae}
+  {\thepage}
+
+
+%-------------------------------------------------------------------------------
+% CORE PROFESSIONAL CONTENT
+%-------------------------------------------------------------------------------
+\input{cv/experience.tex}
+\input{cv/education.tex}
+\input{cv/skills.tex}
+\input{cv/projects.tex}
+\input{cv/certifications.tex}
+
+% Optional general section:
+% \input{cv/extracurricular.tex}
+
+
+%-------------------------------------------------------------------------------
+\end{document}

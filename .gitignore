@@ -1,4 +1,5 @@
 # TeX build output
+build/
 *.aux
 *.dvi
 *.fdb_latexmk
@@ -13,6 +14,10 @@
 *-converted-to.*
 
 # Editor and operating-system files
+.vscode/
+.idea/
+*.code-workspace
 .*sw[op]
 *~
 .DS_Store
+*.pyc

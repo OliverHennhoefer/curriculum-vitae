@@ -1,0 +1,10 @@
+% Small semantic helpers built from the current class styles.
+
+% Usage: \cvpublication[<doi-or-url>]{<authors>}{<title>}{<venue>}{<year>}
+\newcommand*{\cvpublication}[5][]{%
+  \ifstrempty{#1}{%
+    \cventry{#2}{#3}{#4}{#5}{}%
+  }{%
+    \cventry{#2}{#3}{#4}{#5}{\href{#1}{#1}}%
+  }%
+}
