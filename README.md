@@ -1,91 +1,45 @@
-# CV and Cover-Letter Templates
+# Curriculum vitae and cover letter
 
-A LaTeX template for professional and academic CVs, resumes, and
-cover letters. The documents share one class, layout, and data model.
+Configurable resume and cover letter. The same files work locally and on [Overleaf](https://www.overleaf.com/project).
 
-> [!TIP]
-> **Zero-setup compilation:** Fork this repository, edit your CV or cover
-> letter, and push your changes. GitHub Actions compiles every document and
-> publishes the generated PDFs automatically—no local LaTeX installation or
-> TeX distribution is required.
+## Editable Files
 
-## Preview
+- `curriculum-vitae.tex` - resume entrypoint.
+- `cover-letter.tex` - cover-letter entrypoint.
+- `sections/_personal.tex` - name, contact details, etc.
+- `sections/*.tex` - configurable content sections.
+- `application.cls` - shared layout and styling
 
-Download the generated example documents:
+In `curriculum-vitae.tex`, comment or uncomment sections to create an individual resume, professional CV, or academic CV.
 
-| Document | PDF |
-| --- | --- |
-| Professional CV | [cv.pdf](build/cv.pdf) |
-| Short resume | [resume.pdf](build/resume.pdf) |
-| Academic CV | [academic-cv.pdf](build/academic-cv.pdf) |
-| Professional cover letter | [coverletter.pdf](build/coverletter.pdf) |
-| Academic cover letter | [academic-coverletter.pdf](build/academic-coverletter.pdf) |
+## Overleaf
 
-## Included documents
+1. Down the the project (as `.zip`)
+2. In Overleaf, choose **New Project -> Upload Project**.
+3. In project settings, select:
 
-- `src/cv.tex` — detailed professional CV
-- `src/resume.tex` — shorter industry-oriented resume
-- `src/academic-cv.tex` — academic CV with research and teaching sections
-- `src/coverletter.tex` — professional cover letter
-- `src/academic-coverletter.tex` — academic cover letter
+   - **Compiler:** LuaLaTeX
+   - **TeX Live:** 2025, when available, to match the CI build
+   - **Main document:** `curriculum-vitae.tex` or `cover-letter.tex`
 
-Generated PDFs are published in [`build/`](build/) after successful pushes to
-the default branch.
+4. Edit `sections/_personal.tex` and relevant section files
 
-## Requirements
+## Local
 
-- LuaLaTeX
-- A TeX distribution containing the packages used by the class
-- Python 3 for the validation script
-- Poppler utilities for `make check`
+Install a TeX distribution with LuaLaTeX, GNU Make, and Python 3. Poppler is also needed only for `make check`.
 
-The class uses Source Sans 3 and Roboto when available, and falls back to
-Latin Modern Sans when they are not installed.
-
-## Build
+From the project root:
 
 ```sh
-make                 # Build the general CV and cover letter
-make profiles        # Build the resume and academic variants
-make check           # Build all documents and run PDF checks
-make USE_LATEXMK=1  # Force latexmk
-make USE_LATEXMK=0  # Use the portable two-pass fallback
-make clean
+make                  # Build both PDFs
+make curriculum-vitae # Build only the CV/resume
+make cover-letter     # Build only the cover letter
+make check            # Build and run PDF checks
+make fonts            # Optional: install the pinned fonts locally
+make clean            # Remove generated files
 ```
 
-PDFs are written to `build/`. Auxiliary files are kept in
-`build/<document>/`. The GitHub Actions workflow builds every profile, runs the
-ATS-oriented checks, uploads the PDFs as an artifact, and refreshes the
-canonical PDFs on the default branch.
-
-## Automated builds
-
-GitHub Actions provides a convenient build environment for contributors who do
-not have a local TeX installation. Every push automatically compiles all
-profiles, writes the generated PDFs to `build/`, and runs the validation checks.
-Pull requests receive the generated PDFs as an artifact. Successful pushes to
-the default branch also commit the refreshed canonical PDFs to `build/`.
-
-## Customization
-
-1. Edit [`data/personal.tex`](data/personal.tex) and replace its placeholders.
-2. Update the relevant files in [`cv/`](cv/).
-3. Choose the appropriate entrypoint in [`src/`](src/).
-4. Replace all sample recipient, organization, role, and date values before
-   sending an application.
-
-The entrypoints use A4 paper by default. Select the `letterpaper` class option
-when preparing a US Letter document.
-
-## Content structure
-
-The general profiles cover experience, education, skills, projects, and
-certifications. The academic profiles additionally support research interests,
-publications, presentations, teaching, honors, service, and references.
-
-## License and attribution
-
-The project is distributed under the LaTeX Project Public License, version
-1.3c. The shared class contains portions derived from
-[Awesome-CV](https://github.com/posquit0/Awesome-CV), also distributed under
-LPPL 1.3c. See [`LICENSE`](LICENSE) for the license text.
+The PDFs are written to `build/`. Run `make fonts` once if the local output
+falls back to Latin Modern Sans; the command installs Source Sans 3 and Roboto
+for the current user and requires an internet connection. Normal compilation
+uses LuaLaTeX and does not require the font installer.
