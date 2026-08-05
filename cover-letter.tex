@@ -1,4 +1,5 @@
 % !TEX program = lualatex
+% Canonical root-level entrypoint for local and Overleaf builds.
 %!TEX encoding = UTF-8 Unicode
 
 
@@ -6,7 +7,7 @@
 % CONFIGURATIONS
 %-------------------------------------------------------------------------------
 % A4 paper size by default, use 'letterpaper' for US letter
-\documentclass[11pt, a4paper]{curriculum-vitae}
+\documentclass[11pt, a4paper]{application}
 
 % Keep the established page geometry and visual design.
 \geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
@@ -17,17 +18,18 @@
 %-------------------------------------------------------------------------------
 % SHARED INFORMATION
 %-------------------------------------------------------------------------------
+% Retain the established blank header column so the cover-letter geometry stays
+% unchanged while remaining permanently photo-free.
 \reserveheadercolumn[left]
-\input{data/personal.tex}
-\input{data/academic-links.tex}
-\input{cv/macros.tex}
+\input{sections/_personal.tex}
+\input{sections/macros.tex}
 
-\position{Academic or Research Role}
+\position{Target Role}
 \cvpdfmetadata
-  {\cvfullname\space--\space{}Academic Cover Letter}
+  {\cvfullname\space--\space{}Cover Letter}
   {\cvfullname}
-  {Academic application cover letter}
-  {cover letter, research, teaching, academic application}
+  {Application cover letter}
+  {cover letter, job application}
 
 
 %-------------------------------------------------------------------------------
@@ -35,10 +37,10 @@
 %-------------------------------------------------------------------------------
 \recipient
   {Recipient}
-  {Institution\\Address}
+  {Organization\\Address}
 \letterdate{\today}
-\lettertitle{Application for Academic or Research Role}
-\letteropening{Dear Members of the Search Committee,}
+\lettertitle{Application for Target Role}
+\letteropening{Dear Hiring Manager,}
 \letterclosing{Sincerely,}
 \letterenclosure[Attached]{Curriculum Vitae}
 
@@ -50,16 +52,14 @@
 
 \makecvfooter
   {\today}
-  {\cvfullname~~~·~~~Academic Cover Letter}
+  {\cvfullname~~~·~~~Cover Letter}
   {}
 
 \makelettertitle
 
 \begin{cvletter}
-% Recommended academic structure:
-% \lettersection{Research}
-% \lettersection{Teaching}
-% \lettersection{Institutional Fit}
+% Add a concise, target-specific opening, evidence of fit, and closing here.
+% Use \lettersection{Section title} when a visually separated section is useful.
 \end{cvletter}
 
 \makeletterclosing

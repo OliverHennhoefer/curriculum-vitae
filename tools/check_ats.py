@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 REQUIRED_TEXT = {
-    "cv": (
+    "curriculum-vitae": (
         "First Last",
         "Location",
         "Phone",
@@ -21,39 +21,11 @@ REQUIRED_TEXT = {
         "Education",
         "Skills",
         "Projects",
+        "Certifications",
         "Dates",
         "Accomplishment",
     ),
-    "resume": (
-        "First Last",
-        "Location",
-        "Phone",
-        "Email",
-        "https://example.com",
-        "github-id",
-        "linkedin-id",
-        "Experience",
-        "Skills",
-        "Projects",
-        "Dates",
-    ),
-    "academic-cv": (
-        "First Last",
-        "Location",
-        "Phone",
-        "Email",
-        "https://example.com",
-        "github-id",
-        "linkedin-id",
-        "Research Interests",
-        "Publications",
-        "Presentations",
-        "Teaching & Mentoring",
-        "References",
-        "Dates",
-        "Publication title",
-    ),
-    "coverletter": (
+    "cover-letter": (
         "First Last",
         "Location",
         "Phone",
@@ -64,18 +36,6 @@ REQUIRED_TEXT = {
         "Recipient",
         "Organization",
         "Target Role",
-    ),
-    "academic-coverletter": (
-        "First Last",
-        "Location",
-        "Phone",
-        "Email",
-        "https://example.com",
-        "github-id",
-        "linkedin-id",
-        "Recipient",
-        "Institution",
-        "Academic or Research Role",
     ),
 }
 

@@ -1,17 +1,11 @@
-.PHONY: all profiles cv resume academic-cv coverletter academic-coverletter check clean
+.PHONY: all curriculum-vitae cover-letter fonts check clean
 
 LATEX ?= lualatex
 LATEXMK ?= latexmk
 USE_LATEXMK ?= auto
 PYTHON ?= python
 BUILD_DIR ?= build
-SOURCE_DIR ?= src
-
-ifeq ($(OS),Windows_NT)
-export TEXINPUTS := $(SOURCE_DIR);
-else
-export TEXINPUTS := $(SOURCE_DIR):
-endif
+FONT_INSTALLER ?= tools/install_fonts.py
 
 # Prefer latexmk where its Perl runtime is available; keep the direct
 # two-pass recipe usable on minimal Windows TeX installations.
@@ -28,8 +22,8 @@ USE_LATEXMK := 0
 endif
 endif
 
-DOCUMENTS := cv resume academic-cv coverletter academic-coverletter
-COMMON_SOURCES := $(SOURCE_DIR)/curriculum-vitae.cls $(wildcard data/*.tex) $(wildcard cv/*.tex)
+DOCUMENTS := curriculum-vitae cover-letter
+COMMON_SOURCES := application.cls $(wildcard sections/*.tex)
 LATEX_FLAGS ?= -interaction=nonstopmode -halt-on-error -file-line-error
 LATEXMK_FLAGS ?= -lualatex -interaction=nonstopmode -halt-on-error -file-line-error -outdir=$(BUILD_DIR)
 
@@ -43,26 +37,21 @@ CLEAN_BUILD = rm -rf "$(BUILD_DIR)"
 CLEAN_ROOT_AUX = rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.synctex.gz
 endif
 
-all: cv coverletter
+all: $(DOCUMENTS)
 
-profiles: resume academic-cv academic-coverletter
+curriculum-vitae: $(BUILD_DIR)/curriculum-vitae.pdf
 
-cv: $(BUILD_DIR)/cv.pdf
+cover-letter: $(BUILD_DIR)/cover-letter.pdf
 
-resume: $(BUILD_DIR)/resume.pdf
-
-academic-cv: $(BUILD_DIR)/academic-cv.pdf
-
-coverletter: $(BUILD_DIR)/coverletter.pdf
-
-academic-coverletter: $(BUILD_DIR)/academic-coverletter.pdf
+fonts:
+	$(PYTHON) $(FONT_INSTALLER)
 
 ifeq ($(USE_LATEXMK),1)
-$(BUILD_DIR)/%.pdf: $(SOURCE_DIR)/%.tex $(COMMON_SOURCES) | $(BUILD_DIR)
+$(BUILD_DIR)/%.pdf: %.tex $(COMMON_SOURCES) | $(BUILD_DIR)
 	-mkdir "$(BUILD_DIR)/$*"
 	$(LATEXMK) $(LATEXMK_FLAGS) -auxdir=$(BUILD_DIR)/$* -jobname=$* $<
 else
-$(BUILD_DIR)/%.pdf: $(SOURCE_DIR)/%.tex $(COMMON_SOURCES) | $(BUILD_DIR)
+$(BUILD_DIR)/%.pdf: %.tex $(COMMON_SOURCES) | $(BUILD_DIR)
 	-mkdir "$(BUILD_DIR)/$*"
 	$(LATEX) $(LATEX_FLAGS) -output-directory=$(BUILD_DIR)/$* -jobname=$* $<
 	$(LATEX) $(LATEX_FLAGS) -output-directory=$(BUILD_DIR)/$* -jobname=$* $<
@@ -72,7 +61,7 @@ endif
 $(BUILD_DIR):
 	-mkdir $(BUILD_DIR)
 
-check: all profiles
+check: all
 	$(PYTHON) tools/check_ats.py $(BUILD_DIR)
 
 clean:

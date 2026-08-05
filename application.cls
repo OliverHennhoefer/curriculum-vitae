@@ -1,10 +1,11 @@
 % Attribution: portions of this class originate from posquit0/Awesome-CV.
+% The custom class is kept at project root for native Overleaf discovery.
 
 
 %-------------------------------------------------------------------------------
 %                Identification
 %-------------------------------------------------------------------------------
-\ProvidesClass{curriculum-vitae}[2026/08/04 Curriculum Vitae Class]
+\ProvidesClass{application}[2026/08/04 Shared CV and Cover-Letter Class]
 \NeedsTeXFormat{LaTeX2e}
 
 
@@ -65,38 +66,88 @@
   Renderer=HarfBuzz,
 }
 \IfFontExistsTF{Source Sans 3}{%
+  % Google Fonts supplies Source Sans 3 as a variable font. Select its
+  % weight axis explicitly instead of looking for a separate `Light` face.
   \setmainfont{Source Sans 3}[
     UprightFont=*,
     ItalicFont=* Italic,
-    BoldFont=* Bold,
-    BoldItalicFont=* Bold Italic,
-    FontFace={l}{n}{Font=* Light},
-    FontFace={l}{it}{Font=* Light Italic},
+    BoldFont=*,
+    BoldItalicFont=* Italic,
+    UprightFeatures={Weight=400},
+    ItalicFeatures={Weight=400},
+    BoldFeatures={Weight=700},
+    BoldItalicFeatures={Weight=700},
+    FontFace={l}{n}{Font=*, Weight=300},
+    FontFace={l}{it}{Font=* Italic, Weight=300},
   ]%
   \setsansfont{Source Sans 3}[
     UprightFont=*,
     ItalicFont=* Italic,
-    BoldFont=* Bold,
-    BoldItalicFont=* Bold Italic,
-    FontFace={l}{n}{Font=* Light},
-    FontFace={l}{it}{Font=* Light Italic},
+    BoldFont=*,
+    BoldItalicFont=* Italic,
+    UprightFeatures={Weight=400},
+    ItalicFeatures={Weight=400},
+    BoldFeatures={Weight=700},
+    BoldItalicFeatures={Weight=700},
+    FontFace={l}{n}{Font=*, Weight=300},
+    FontFace={l}{it}{Font=* Italic, Weight=300},
   ]%
+  \newcommand*{\cvbodyfontlight}{\sffamily\fontseries{l}\selectfont}%
 }{%
-  % Keep the layout buildable when the optional Source Sans 3 font is absent.
-  \setmainfont{Latin Modern Sans}%
-  \setsansfont{Latin Modern Sans}%
+  % Prefer the TeX-distributed Source Sans package over Latin Modern. This
+  % keeps the native TeX Live/Overleaf lane close to the upstream design even
+  % when the system-font name `Source Sans 3` is unavailable.
+  \IfFileExists{sourcesanspro.sty}{%
+    \RequirePackage[opentype,default]{sourcesanspro}%
+    \newcommand*{\cvbodyfontlight}{\sourcesansprolight}%
+  }{%
+    % Some installations expose the packaged predecessor as a system font
+    % but do not provide its package wrapper.
+    \IfFontExistsTF{Source Sans Pro}{%
+      \setmainfont{Source Sans Pro}[
+        UprightFont=*,
+        ItalicFont=* Italic,
+        BoldFont=* Bold,
+        BoldItalicFont=* Bold Italic,
+        FontFace={l}{n}{Font=* Light},
+        FontFace={l}{it}{Font=* Light Italic},
+      ]%
+      \setsansfont{Source Sans Pro}[
+        UprightFont=*,
+        ItalicFont=* Italic,
+        BoldFont=* Bold,
+        BoldItalicFont=* Bold Italic,
+        FontFace={l}{n}{Font=* Light},
+        FontFace={l}{it}{Font=* Light Italic},
+      ]%
+      \newcommand*{\cvbodyfontlight}{\sffamily\fontseries{l}\selectfont}%
+    }{%
+      % Keep the document buildable as a last-resort local fallback.
+      \setmainfont{Latin Modern Sans}%
+      \setsansfont{Latin Modern Sans}%
+      \newcommand*{\cvbodyfontlight}{\sffamily\fontseries{l}\selectfont}%
+    }%
+  }%
 }%
 \IfFontExistsTF{Roboto}{%
   \newfontfamily\roboto{Roboto}[
     UprightFont=*,
     ItalicFont=* Italic,
-    BoldFont=* Bold,
-    BoldItalicFont=* Bold Italic,
-    FontFace={l}{n}{Font=* Light},
-    FontFace={l}{it}{Font=* Light Italic},
+    BoldFont=*,
+    BoldItalicFont=* Italic,
+    UprightFeatures={Weight=400},
+    ItalicFeatures={Weight=400},
+    BoldFeatures={Weight=700},
+    BoldItalicFeatures={Weight=700},
+    FontFace={l}{n}{Font=*, Weight=300},
+    FontFace={l}{it}{Font=* Italic, Weight=300},
   ]%
 }{%
-  \newfontfamily\roboto{Latin Modern Sans}%
+  \IfFileExists{roboto.sty}{%
+    \RequirePackage[opentype]{roboto}%
+  }{%
+    \newfontfamily\roboto{Latin Modern Sans}%
+  }%
 }%
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
@@ -150,10 +201,24 @@
 %                Configuration for colors
 %-------------------------------------------------------------------------------
 % Single customization point for the document's accent color.
-% Change this value at will; all accents and section dividers use it.
+% Change this value at will; it controls the colored accents and the first
+% three characters of each section heading.
 % The value uses xcolor's HTML syntax. To use RGB instead, change HTML to RGB
 % and provide three comma-separated values.
 \definecolor{cv-accent-color}{HTML}{3B6E8F}
+% Keep the neutral text hierarchy from Awesome-CV. Flattening these colors to
+% black makes the document look noticeably heavier than the reference design.
+\definecolor{cv-darkgray}{HTML}{333333}
+\definecolor{cv-gray}{HTML}{5D5D5D}
+\definecolor{cv-lightgray}{HTML}{999999}
+\definecolor{cv-darktext}{HTML}{414141}
+\colorlet{cv-text}{cv-darkgray}
+\colorlet{cv-graytext}{cv-gray}
+\colorlet{cv-lighttext}{cv-lightgray}
+\colorlet{cv-sectiondivider}{cv-gray}
+% Boolean value to switch section color highlighting.
+\newbool{acvSectionColorHighlight}
+\setbool{acvSectionColorHighlight}{true}
 
 %-------------------------------------------------------------------------------
 %                Configuration for fonts
@@ -162,58 +227,70 @@
 \newcommand*{\headerfontlight}{\roboto\fontseries{l}\selectfont}
 \newcommand*{\footerfont}{\sffamily}
 \newcommand*{\bodyfont}{\sffamily}
-\newcommand*{\bodyfontlight}{\sffamily\fontseries{l}\selectfont}
+\newcommand*{\bodyfontlight}{\cvbodyfontlight}
 
 %-------------------------------------------------------------------------------
 %                Configuration for styles
 %-------------------------------------------------------------------------------
 % Configure styles for each CV elements
 % For fundamental structures
-\newcommand*{\headerfirstnamestyle}[1]{{\fontsize{32pt}{1em}\headerfontlight\color{black} #1}}
-\newcommand*{\headerlastnamestyle}[1]{{\fontsize{32pt}{1em}\headerfont\bfseries\color{black} #1}}
+\newcommand*{\headerfirstnamestyle}[1]{{\fontsize{32pt}{1em}\headerfontlight\color{cv-graytext} #1}}
+\newcommand*{\headerlastnamestyle}[1]{{\fontsize{32pt}{1em}\headerfont\bfseries\color{cv-text} #1}}
 \newcommand*{\headerpositionstyle}[1]{{\fontsize{7.6pt}{1em}\bodyfont\scshape\color{cv-accent-color} #1}}
-\newcommand*{\headeraddressstyle}[1]{{\fontsize{8pt}{1em}\headerfont\itshape\color{black} #1}}
-\newcommand*{\headersocialstyle}[1]{{\fontsize{6.8pt}{1em}\headerfont\color{black} #1}}
-\newcommand*{\footerstyle}[1]{{\fontsize{8pt}{1em}\footerfont\scshape\color{black} #1}}
+\newcommand*{\headeraddressstyle}[1]{{\fontsize{8pt}{1em}\headerfont\itshape\color{cv-lighttext} #1}}
+\newcommand*{\headersocialstyle}[1]{{\fontsize{6.8pt}{1em}\headerfont\color{cv-text} #1}}
+\newcommand*{\footerstyle}[1]{{\fontsize{8pt}{1em}\footerfont\scshape\color{cv-lighttext} #1}}
 \newcommand*{\sectionstyleface}[1]{{\fontsize{16pt}{1em}\bodyfont\bfseries #1}}
-\newcommand*{\sectionstyle}[1]{{\color{black}\sectionstyleface{#1}}}
-\newcommand*{\subsectionstyle}[1]{{\fontsize{12pt}{1em}\bodyfont\scshape\textcolor{black}{#1}}}
-\newcommand*{\paragraphstyle}{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{black}}
+\newcommand*{\sectionstyle}[1]{%
+  \def\@cvSectionTmp{#1}%
+  \ifthenelse{\boolean{acvSectionColorHighlight}}{%
+    \StrSplit{\@cvSectionTmp}{3}{\cvSectionStringAccent}{\cvSectionStringPlain}%
+      \color{cv-accent-color}\sectionstyleface{\cvSectionStringAccent%
+      \color{cv-text}{\cvSectionStringPlain}}}%
+      {\color{cv-text}\sectionstyleface{\@cvSectionTmp}}}
+\newcommand*{\subsectionstyle}[1]{{\fontsize{12pt}{1em}\bodyfont\scshape\textcolor{cv-text}{#1}}}
+\newcommand*{\paragraphstyle}{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{cv-text}}
 
 % For elements of entry
-\newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{black} #1}}
-\newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\bodyfont\scshape\color{black} #1}}
-\newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\slshape\color{black} #1}}
+\newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{cv-darktext} #1}}
+\newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\bodyfont\scshape\color{cv-graytext} #1}}
+\newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\slshape\color{cv-graytext} #1}}
 \newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{cv-accent-color} #1}}
-\newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{black} #1}}
+\newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{cv-text} #1}}
 
 % For elements of subentry
-\newcommand*{\subentrytitlestyle}[1]{{\fontsize{8pt}{1em}\bodyfont\mdseries\color{black} #1}}
-\newcommand*{\subentrypositionstyle}[1]{{\fontsize{7pt}{1em}\bodyfont\scshape\color{black} #1}}
-\newcommand*{\subentrydatestyle}[1]{{\fontsize{7pt}{1em}\bodyfontlight\slshape\color{black} #1}}
+\newcommand*{\subentrytitlestyle}[1]{{\fontsize{8pt}{1em}\bodyfont\mdseries\color{cv-graytext} #1}}
+\newcommand*{\subentrypositionstyle}[1]{{\fontsize{7pt}{1em}\bodyfont\scshape\color{cv-graytext} #1}}
+\newcommand*{\subentrydatestyle}[1]{{\fontsize{7pt}{1em}\bodyfontlight\slshape\color{cv-graytext} #1}}
 \newcommand*{\subentrylocationstyle}[1]{{\fontsize{7pt}{1em}\bodyfontlight\slshape\color{cv-accent-color} #1}}
-\newcommand*{\subdescriptionstyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\upshape\color{black} #1}}
+\newcommand*{\subdescriptionstyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\upshape\color{cv-text} #1}}
 
 % For elements of honor
-\newcommand*{\honortitlestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{black} #1}}
-\newcommand*{\honorpositionstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\bfseries\color{black} #1}}
-\newcommand*{\honordatestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{black} #1}}
+\newcommand*{\honortitlestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{cv-graytext} #1}}
+\newcommand*{\honorpositionstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\bfseries\color{cv-darktext} #1}}
+\newcommand*{\honordatestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\color{cv-graytext} #1}}
 \newcommand*{\honorlocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{cv-accent-color} #1}}
 
 % For elements of skill
-\newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{black} #1}}
-\newcommand*{\skillsetstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\color{black} #1}}
+\newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{cv-darktext} #1}}
+\newcommand*{\skillsetstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\color{cv-text} #1}}
 
 % For elements of the cover letter
 \newcommand*{\lettersectionstyleface}[1]{{\fontsize{14pt}{1em}\bodyfont\bfseries #1}}
-\newcommand*{\lettersectionstyle}[1]{{\color{black}\lettersectionstyleface{#1}}}
-\newcommand*{\recipientaddressstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\scshape\color{black} #1}}
-\newcommand*{\recipienttitlestyle}[1]{{\fontsize{11pt}{1em}\bodyfont\bfseries\color{black} #1}}
-\newcommand*{\lettertitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\bfseries\color{black} \underline{#1}}}
-\newcommand*{\letterdatestyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{black} #1}}
-\newcommand*{\lettertextstyle}{\fontsize{10pt}{1.4em}\bodyfontlight\upshape\color{black}}
-\newcommand*{\letternamestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{black} #1}}
-\newcommand*{\letterenclosurestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\slshape\color{black} #1}}
+\newcommand*{\lettersectionstyle}[1]{%
+  \def\@cvLetterSectionTmp{#1}%
+  \ifthenelse{\boolean{acvSectionColorHighlight}}{%
+    \StrSplit{\@cvLetterSectionTmp}{3}{\cvLetterSectionStringAccent}{\cvLetterSectionStringPlain}%
+      \color{cv-accent-color}\lettersectionstyleface{\cvLetterSectionStringAccent%
+      \color{cv-text}{\cvLetterSectionStringPlain}}}%
+      {\color{cv-text}\lettersectionstyleface{\@cvLetterSectionTmp}}}
+\newcommand*{\recipientaddressstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\scshape\color{cv-graytext} #1}}
+\newcommand*{\recipienttitlestyle}[1]{{\fontsize{11pt}{1em}\bodyfont\bfseries\color{cv-darktext} #1}}
+\newcommand*{\lettertitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\bfseries\color{cv-darktext} \underline{#1}}}
+\newcommand*{\letterdatestyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{cv-graytext} #1}}
+\newcommand*{\lettertextstyle}{\fontsize{10pt}{1.4em}\bodyfontlight\upshape\color{cv-graytext}}
+\newcommand*{\letternamestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{cv-darktext} #1}}
+\newcommand*{\letterenclosurestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\slshape\color{cv-lighttext} #1}}
 
 
 %-------------------------------------------------------------------------------
@@ -645,7 +722,7 @@
   \vspace{\acvSectionTopSkip}
   \sectionstyle{#1}
   \phantomsection
-  \color{cv-accent-color}\vhrulefill{0.9pt}
+  \color{cv-sectiondivider}\vhrulefill{0.9pt}
 }
 
 % Define a subsection for CV
@@ -783,7 +860,7 @@
   \par\addvspace{2.5ex}
   \phantomsection{}
   \lettersectionstyle{#1}
-  \color{cv-accent-color}\vhrulefill{0.9pt}
+  \color{cv-sectiondivider}\vhrulefill{0.9pt}
   \par\nobreak\addvspace{0.4ex}
   \lettertextstyle
 }

@@ -1,4 +1,5 @@
 % !TEX program = lualatex
+% Single configurable professional CV/resume entrypoint for local and Overleaf builds.
 %!TEX encoding = UTF-8 Unicode
 
 
@@ -6,7 +7,7 @@
 % CONFIGURATIONS
 %-------------------------------------------------------------------------------
 % A4 paper size by default, use 'letterpaper' for US letter
-\documentclass[11pt, a4paper]{curriculum-vitae}
+\documentclass[11pt, a4paper]{application}
 
 % Keep the established page geometry and visual design.
 \geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
@@ -18,15 +19,15 @@
 %-------------------------------------------------------------------------------
 % SHARED INFORMATION
 %-------------------------------------------------------------------------------
-\input{data/personal.tex}
-\input{cv/macros.tex}
+\input{sections/_personal.tex}
+\input{sections/macros.tex}
 
 \position{Professional Role}
 \cvpdfmetadata
   {\cvfullname\space--\space{}Curriculum Vitae}
   {\cvfullname}
-  {Professional curriculum vitae}
-  {curriculum vitae, professional experience, education, skills}
+  {Professional and academic curriculum vitae}
+  {curriculum vitae, resume, professional experience, education, research}
 
 
 %-------------------------------------------------------------------------------
@@ -41,16 +42,31 @@
 
 
 %-------------------------------------------------------------------------------
-% CORE PROFESSIONAL CONTENT
+% GENERAL CV/RESUME CONTENT
+%
+% The conventional CV sections below are enabled by default. Comment or
+% uncomment inputs to tailor the same document as a full curriculum vitae,
+% targeted resume, or academic CV. The class, layout, typography, and shared
+% personal information remain unchanged.
 %-------------------------------------------------------------------------------
-\input{cv/experience.tex}
-\input{cv/education.tex}
-\input{cv/skills.tex}
-\input{cv/projects.tex}
-\input{cv/certifications.tex}
+\input{sections/experience.tex}
+\input{sections/education.tex}
+\input{sections/skills.tex}
+\input{sections/projects.tex}
+\input{sections/certifications.tex}
 
 % Optional general section:
-% \input{cv/extracurricular.tex}
+% \input{sections/extracurricular.tex}
+
+% Academic sections: uncomment the inputs relevant to the academic version.
+% The same class, layout, typography, and shared information are used.
+% \input{sections/research.tex}
+% \input{sections/publications.tex}
+% \input{sections/presentations.tex}
+% \input{sections/teaching.tex}
+% \input{sections/honors.tex}
+% \input{sections/committees.tex}
+% \input{sections/references.tex}
 
 
 %-------------------------------------------------------------------------------
