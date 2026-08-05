@@ -1,6 +1,6 @@
 # CV and Cover-Letter Templates
 
-A photo-free LaTeX template for professional and academic CVs, resumes, and
+A LaTeX template for professional and academic CVs, resumes, and
 cover letters. The documents share one class, layout, and data model.
 
 ## Preview
