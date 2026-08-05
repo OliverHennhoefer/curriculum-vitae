@@ -9,15 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Build and inspect PDFs
         uses: xu-cheng/texlive-action@v3
         with:
           texlive_version: 2025
           os: debian
-          extra_system_packages: poppler-utils
           run: |
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update -y
+            apt-get install -y poppler-utils
             mkdir -p build
             for document in cv resume academic-cv coverletter academic-coverletter; do
               mkdir -p "build/$document"
@@ -26,7 +28,7 @@ jobs:
             python3 tools/check_ats.py build
 
       - name: Upload generated PDFs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: cv-documents
           path: build/*.pdf
