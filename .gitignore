@@ -1,5 +1,5 @@
 # TeX build output
-build/
+/build/*
 *.aux
 *.dvi
 *.fdb_latexmk
@@ -11,6 +11,9 @@ build/
 *.pdf
 *.synctex.gz
 *.toc
+
+# Canonical generated PDFs are published from the build directory.
+!/build/*.pdf
 *-converted-to.*
 
 # Editor and operating-system files

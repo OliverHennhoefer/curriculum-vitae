@@ -30,8 +30,10 @@ make USE_LATEXMK=0  # force the portable two-pass fallback
 make clean
 ~~~
 
-Generated PDFs are written directly to `build/`; each document's auxiliary files
-(`.aux`, `.log`, and related build state) are kept in `build/<document>/`.
+Generated PDFs are written directly to `build/`; these PDFs are the canonical
+published outputs and GitHub Actions refreshes them on successful pushes to the
+default branch. Each document's auxiliary files (`.aux`, `.log`, and related
+build state) are kept in `build/<document>/` and remain untracked.
 In VSCode, LaTeX Workshop uses the same layout and two-pass recipe.
 
 The entrypoints default to A4; change their `a4paper` class option to
