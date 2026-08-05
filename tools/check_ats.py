@@ -84,13 +84,19 @@ def metadata(output: str) -> dict[str, str]:
     return values
 
 
+def normalize_text(output: str) -> str:
+    """Make PDF text extraction comparable across line-wrapping engines."""
+    return " ".join(output.split())
+
+
 def check_pdf(pdf: Path, required_text: tuple[str, ...]) -> list[str]:
     errors: list[str] = []
     stem = pdf.stem
 
-    normal_text = run(["pdftotext", str(pdf), "-"])
-    layout_text = run(["pdftotext", "-layout", str(pdf), "-"])
+    normal_text = normalize_text(run(["pdftotext", str(pdf), "-"]))
+    layout_text = normalize_text(run(["pdftotext", "-layout", str(pdf), "-"]))
     for expected in required_text:
+        expected = normalize_text(expected)
         if expected not in normal_text:
             errors.append(f"{pdf.name}: missing normal extracted text {expected!r}")
         if expected not in layout_text:
