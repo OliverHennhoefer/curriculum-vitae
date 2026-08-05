@@ -35,7 +35,7 @@ make                  # Build both PDFs
 make curriculum-vitae # Build only the CV/resume
 make cover-letter     # Build only the cover letter
 make check            # Build and run PDF checks
-make fonts            # Optional: install the pinned fonts locally
+make fonts            # Optional: install fonts locally
 make clean            # Remove generated files
 ```
 
