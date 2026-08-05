@@ -3,6 +3,12 @@
 A LaTeX template for professional and academic CVs, resumes, and
 cover letters. The documents share one class, layout, and data model.
 
+> [!TIP]
+> **Zero-setup compilation:** Fork this repository, edit your CV or cover
+> letter, and push your changes. GitHub Actions compiles every document and
+> publishes the generated PDFs automatically—no local LaTeX installation or
+> TeX distribution is required.
+
 ## Preview
 
 Download the generated example documents:
