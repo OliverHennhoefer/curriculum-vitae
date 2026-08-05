@@ -23,12 +23,20 @@ jobs:
             apt-get update -y
             apt-get install -y poppler-utils
             tlmgr install sourcesanspro roboto
-            mkdir -p build
+            workspace="$PWD"
+            demo_dir="$workspace/build/demo-source"
+            python3 tools/prepare_demo.py --output-dir "$demo_dir"
+            mkdir -p "$workspace/build"
             for document in curriculum-vitae cover-letter; do
-              mkdir -p "build/$document"
-              latexmk -lualatex -interaction=nonstopmode -halt-on-error -file-line-error -outdir=build -auxdir="build/$document" "$document.tex"
+              mkdir -p "$workspace/build/$document"
+              (
+                cd "$demo_dir"
+                latexmk -lualatex -interaction=nonstopmode -halt-on-error -file-line-error \
+                  -outdir="$workspace/build" \
+                  -auxdir="$workspace/build/$document" "$document.tex"
+              )
             done
-            python3 tools/check_ats.py build
+            python3 tools/check_ats.py "$workspace/build" --profile demo
 
       - name: Upload generated PDFs
         uses: actions/upload-artifact@v6
