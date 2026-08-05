@@ -1,63 +1,73 @@
-# CV and cover-letter template
+# CV and Cover-Letter Templates
 
-LaTeX CV and cover-letter templates with a shared, photo-free class.
+A photo-free LaTeX template for professional and academic CVs, resumes, and
+cover letters. The documents share one class, layout, and data model.
 
-The repository is intentionally photo-free. All document variants use the same visual design and are built from shared personal information and section templates.
+## Included documents
 
-## Documents
+- `src/cv.tex` — detailed professional CV
+- `src/resume.tex` — shorter industry-oriented resume
+- `src/academic-cv.tex` — academic CV with research and teaching sections
+- `src/coverletter.tex` — professional cover letter
+- `src/academic-coverletter.tex` — academic cover letter
 
-- `src/cv.tex` — general, detailed professional CV.
-- `src/resume.tex` — shorter industry-oriented resume.
-- `src/coverletter.tex` — general professional cover letter.
-- `src/academic-cv.tex` — optional academic CV with research, publications, teaching, and service.
-- `src/academic-coverletter.tex` — optional academic application letter.
+Generated PDFs are published in [`build/`](build/) after successful pushes to
+the default branch.
 
-The entrypoints and shared class are kept under `src/`. Use Make or VSCode to
-build them so the source search path is configured automatically.
+## Requirements
 
-Edit data/personal.tex first. Optional academic links are in data/academic-links.tex.
+- LuaLaTeX
+- A TeX distribution containing the packages used by the class
+- Python 3 for the validation script
+- Poppler utilities for `make check`
+
+The class uses Source Sans 3 and Roboto when available, and falls back to
+Latin Modern Sans when they are not installed.
 
 ## Build
 
-Requires LuaLaTeX and the fonts/packages used by the class. Source Sans 3 and Roboto are selected when installed; Latin Modern Sans is used only as a buildable fallback when they are unavailable. Make automatically uses latexmk when Perl is available and falls back to two direct LuaLaTeX passes on minimal Windows installations.
-
-~~~sh
-make                 # general CV and cover letter
-make profiles        # resume and academic variants
-make check           # build everything and run PDF text/image checks
-make USE_LATEXMK=1  # force latexmk
-make USE_LATEXMK=0  # force the portable two-pass fallback
+```sh
+make                 # Build the general CV and cover letter
+make profiles        # Build the resume and academic variants
+make check           # Build all documents and run PDF checks
+make USE_LATEXMK=1  # Force latexmk
+make USE_LATEXMK=0  # Use the portable two-pass fallback
 make clean
-~~~
+```
 
-Generated PDFs are written directly to `build/`; these PDFs are the canonical
-published outputs and GitHub Actions refreshes them on successful pushes to the
-default branch. Each document's auxiliary files (`.aux`, `.log`, and related
-build state) are kept in `build/<document>/` and remain untracked.
-In VSCode, LaTeX Workshop uses the same layout and two-pass recipe.
+PDFs are written to `build/`. Auxiliary files are kept in
+`build/<document>/`. The GitHub Actions workflow builds every profile, runs the
+ATS-oriented checks, uploads the PDFs as an artifact, and refreshes the
+canonical PDFs on the default branch.
 
-The entrypoints default to A4; change their `a4paper` class option to
-`letterpaper` when preparing a US Letter application.
+## Automated builds
 
-## Content conventions
+GitHub Actions provides a convenient build environment for contributors who do
+not have a local TeX installation. Every push and pull request builds all
+profiles and runs the validation checks. Pull requests receive the generated
+PDFs as an artifact; successful pushes to the default branch also publish the
+canonical PDFs in `build/`.
 
-The general professional profile should normally prioritize experience, education, skills, projects, and relevant certifications. Enable additional sections only when they strengthen the application.
+## Customization
 
-The academic profile adds research interests, publications, presentations, teaching, honors, service, and references. Publications use \cvpublication in cv/publications.tex; separate peer-reviewed work, preprints, and other writing when needed.
+1. Edit [`data/personal.tex`](data/personal.tex) and replace its placeholders.
+2. Update the relevant files in [`cv/`](cv/).
+3. Choose the appropriate entrypoint in [`src/`](src/).
+4. Replace all sample recipient, organization, role, and date values before
+   sending an application.
 
-For multiple roles within one organization, keep one normal \cventry and put
-the existing cvsubentries environment inside its fifth argument:
+The entrypoints use A4 paper by default. Select the `letterpaper` class option
+when preparing a US Letter document.
 
-~~~latex
-% inside the cventry description
-\begin{cvsubentries}
-  \cvsubentry{}{Earlier role}{Earlier dates}{}
-  \cvsubentry{}{Later role}{Later dates}{}
-\end{cvsubentries}
-~~~
+## Content structure
 
-Replace all placeholders before sending an application. Keep target-specific recipient details and letter text in the relevant cover-letter entrypoint or a private copy of it.
+The general profiles cover experience, education, skills, projects, and
+certifications. The academic profiles additionally support research interests,
+publications, presentations, teaching, honors, service, and references.
 
-## ATS scope
+## License and attribution
 
-The PDFs retain the established visual design while keeping important content as selectable text, retaining readable link labels, providing PDF metadata, and adding automated extraction checks. This improves compatibility with ATS parsers but cannot guarantee identical behavior across proprietary systems.
+The project is distributed under the LaTeX Project Public License, version
+1.3c. The shared class contains portions derived from
+[Awesome-CV](https://github.com/posquit0/Awesome-CV), also distributed under
+LPPL 1.3c. See [`LICENSE`](LICENSE) for the license text.
