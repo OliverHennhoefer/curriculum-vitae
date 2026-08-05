@@ -1,6 +1,6 @@
 # Curriculum vitae and cover letter
 
-Configurable resume and cover letter. The same files work locally and on [Overleaf](https://www.overleaf.com/project).
+Configurable resume and cover letter. The same files work locally and on [Overleaf](https://www.overleaf.com/project). Example outputs: [curriculum-vitae.pdf](examples/curriculum-vitae.pdf) and [cover-letter.pdf](examples/cover-letter.pdf).
 
 ## Editable Files
 
