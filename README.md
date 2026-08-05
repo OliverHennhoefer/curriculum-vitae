@@ -24,6 +24,14 @@ In `curriculum-vitae.tex`, comment or uncomment sections to create an individual
 
 4. Edit `sections/_personal.tex` and relevant section files
 
+The free Overleaf plan has a short compile-time limit. Set the main document to
+the one file you are editing (`curriculum-vitae.tex` or `cover-letter.tex`) and
+close the other root entrypoint if it is open in the editor. After changing
+compiler settings or uploading a fresh ZIP, use **Recompile from scratch** and
+enable **Stop on first error** while diagnosing a timeout. **Fast [draft]** mode
+is useful to distinguish image processing from LaTeX/package startup, even
+though this project currently contains no large images.
+
 ## Local
 
 Install a TeX distribution with LuaLaTeX, GNU Make, and Python 3. Poppler is also needed only for `make check`.
@@ -39,7 +47,18 @@ make fonts            # Optional: install fonts locally
 make clean            # Remove generated files
 ```
 
-The PDFs are written to `build/`. Run `make fonts` once if the local output
-falls back to Latin Modern Sans; the command installs Source Sans 3 and Roboto
-for the current user and requires an internet connection. Normal compilation
-uses LuaLaTeX and does not require the font installer.
+The PDFs are written to the local, ignored `build/` directory. Run `make fonts`
+once if the local output falls back to Latin Modern Sans; the command installs
+Source Sans 3 and Roboto for the current user and requires an internet
+connection. Normal compilation uses LuaLaTeX and does not require the font
+installer.
+
+`build/` is never published from the working tree. GitHub Actions uses it as a
+temporary build and artifact directory, then copies the final PDFs to the
+tracked `examples/` directory on the default branch. The `examples/` PDFs are
+therefore the repository previews; local `make` output stays local.
+
+The class loads `unicode-math` only when the `math` class option is requested;
+the supplied CV and cover-letter entrypoints contain no mathematics, so the
+default path avoids that unnecessary initialization and leaves more margin for
+Overleaf's short free-plan compile window.
