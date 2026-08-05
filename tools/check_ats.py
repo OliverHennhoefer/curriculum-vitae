@@ -85,8 +85,8 @@ def metadata(output: str) -> dict[str, str]:
 
 
 def normalize_text(output: str) -> str:
-    """Make PDF text extraction comparable across line-wrapping engines."""
-    return " ".join(output.split())
+    """Make PDF text extraction comparable across wrapping and font styles."""
+    return " ".join(output.split()).casefold()
 
 
 def check_pdf(pdf: Path, required_text: tuple[str, ...]) -> list[str]:
