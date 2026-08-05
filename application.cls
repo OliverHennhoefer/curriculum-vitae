@@ -216,10 +216,6 @@
 \colorlet{cv-graytext}{cv-gray}
 \colorlet{cv-lighttext}{cv-lightgray}
 \colorlet{cv-sectiondivider}{cv-gray}
-% Boolean value to switch section color highlighting.
-\newbool{acvSectionColorHighlight}
-\setbool{acvSectionColorHighlight}{true}
-
 %-------------------------------------------------------------------------------
 %                Configuration for fonts
 %-------------------------------------------------------------------------------
@@ -241,13 +237,7 @@
 \newcommand*{\headersocialstyle}[1]{{\fontsize{6.8pt}{1em}\headerfont\color{cv-text} #1}}
 \newcommand*{\footerstyle}[1]{{\fontsize{8pt}{1em}\footerfont\scshape\color{cv-lighttext} #1}}
 \newcommand*{\sectionstyleface}[1]{{\fontsize{16pt}{1em}\bodyfont\bfseries #1}}
-\newcommand*{\sectionstyle}[1]{%
-  \def\@cvSectionTmp{#1}%
-  \ifthenelse{\boolean{acvSectionColorHighlight}}{%
-    \StrSplit{\@cvSectionTmp}{3}{\cvSectionStringAccent}{\cvSectionStringPlain}%
-      \color{cv-accent-color}\sectionstyleface{\cvSectionStringAccent%
-      \color{cv-text}{\cvSectionStringPlain}}}%
-      {\color{cv-text}\sectionstyleface{\@cvSectionTmp}}}
+\newcommand*{\sectionstyle}[1]{{\color{cv-text}\sectionstyleface{#1}}}
 \newcommand*{\subsectionstyle}[1]{{\fontsize{12pt}{1em}\bodyfont\scshape\textcolor{cv-text}{#1}}}
 \newcommand*{\paragraphstyle}{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{cv-text}}
 
@@ -277,13 +267,7 @@
 
 % For elements of the cover letter
 \newcommand*{\lettersectionstyleface}[1]{{\fontsize{14pt}{1em}\bodyfont\bfseries #1}}
-\newcommand*{\lettersectionstyle}[1]{%
-  \def\@cvLetterSectionTmp{#1}%
-  \ifthenelse{\boolean{acvSectionColorHighlight}}{%
-    \StrSplit{\@cvLetterSectionTmp}{3}{\cvLetterSectionStringAccent}{\cvLetterSectionStringPlain}%
-      \color{cv-accent-color}\lettersectionstyleface{\cvLetterSectionStringAccent%
-      \color{cv-text}{\cvLetterSectionStringPlain}}}%
-      {\color{cv-text}\lettersectionstyleface{\@cvLetterSectionTmp}}}
+\newcommand*{\lettersectionstyle}[1]{{\color{cv-text}\lettersectionstyleface{#1}}}
 \newcommand*{\recipientaddressstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\scshape\color{cv-graytext} #1}}
 \newcommand*{\recipienttitlestyle}[1]{{\fontsize{11pt}{1em}\bodyfont\bfseries\color{cv-darktext} #1}}
 \newcommand*{\lettertitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\bfseries\color{cv-darktext} \underline{#1}}}
