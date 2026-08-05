@@ -39,11 +39,16 @@ jobs:
     if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     needs: build
     runs-on: ubuntu-latest
+    concurrency:
+      group: publish-${{ github.repository }}-${{ github.ref }}
+      cancel-in-progress: false
     permissions:
       contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Download generated PDFs
         uses: actions/download-artifact@v7
@@ -61,4 +66,13 @@ jobs:
             exit 0
           fi
           git commit -m "ci: update generated PDFs"
-          git push
+          for attempt in 1 2 3 4 5; do
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            echo "Remote branch moved; rebasing before retry $((attempt + 1))."
+            git fetch origin "${GITHUB_REF_NAME}"
+            git rebase "origin/${GITHUB_REF_NAME}"
+          done
+          echo "Unable to push generated PDFs after multiple attempts."
+          exit 1
