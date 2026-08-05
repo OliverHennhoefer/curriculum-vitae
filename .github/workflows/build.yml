@@ -57,16 +57,21 @@ jobs:
           name: cv-documents
           path: build
 
+      - name: Copy PDFs to examples
+        run: |
+          mkdir -p examples
+          cp build/*.pdf examples/
+
       - name: Commit generated PDFs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add build/*.pdf
+          git add examples/*.pdf
           if git diff --cached --quiet; then
-            echo "Generated PDFs are unchanged."
+            echo "Example PDFs are unchanged."
             exit 0
           fi
-          git commit -m "ci: update generated PDFs"
+          git commit -m "ci: update example PDFs"
           for attempt in 1 2 3 4 5; do
             if git push origin "HEAD:${GITHUB_REF_NAME}"; then
               exit 0
