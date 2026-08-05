@@ -153,7 +153,7 @@
 % Change this value at will; all accents and section dividers use it.
 % The value uses xcolor's HTML syntax. To use RGB instead, change HTML to RGB
 % and provide three comma-separated values.
-\definecolor{cv-accent-color}{HTML}{DC3522}
+\definecolor{cv-accent-color}{HTML}{3B6E8F}
 
 %-------------------------------------------------------------------------------
 %                Configuration for fonts
