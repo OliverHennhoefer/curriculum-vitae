@@ -3,6 +3,18 @@
 A photo-free LaTeX template for professional and academic CVs, resumes, and
 cover letters. The documents share one class, layout, and data model.
 
+## Preview
+
+Download the generated example documents:
+
+| Document | PDF |
+| --- | --- |
+| Professional CV | [cv.pdf](build/cv.pdf) |
+| Short resume | [resume.pdf](build/resume.pdf) |
+| Academic CV | [academic-cv.pdf](build/academic-cv.pdf) |
+| Professional cover letter | [coverletter.pdf](build/coverletter.pdf) |
+| Academic cover letter | [academic-coverletter.pdf](build/academic-coverletter.pdf) |
+
 ## Included documents
 
 - `src/cv.tex` — detailed professional CV
@@ -43,10 +55,10 @@ canonical PDFs on the default branch.
 ## Automated builds
 
 GitHub Actions provides a convenient build environment for contributors who do
-not have a local TeX installation. Every push and pull request builds all
-profiles and runs the validation checks. Pull requests receive the generated
-PDFs as an artifact; successful pushes to the default branch also publish the
-canonical PDFs in `build/`.
+not have a local TeX installation. Every push automatically compiles all
+profiles, writes the generated PDFs to `build/`, and runs the validation checks.
+Pull requests receive the generated PDFs as an artifact. Successful pushes to
+the default branch also commit the refreshed canonical PDFs to `build/`.
 
 ## Customization
 
