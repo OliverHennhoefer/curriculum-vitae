@@ -19,6 +19,11 @@
 % Options for draft or final
 \DeclareOption{draft}{\setlength\overfullrule{5pt}}
 \DeclareOption{final}{\setlength\overfullrule{0pt}}
+% The CV documents contain no mathematics. Keep unicode-math available for
+% consumers who need it, but do not initialize the full math stack by default.
+\newif\if@cvmath
+\@cvmathfalse
+\DeclareOption{math}{\@cvmathtrue}
 % Inherit options of article
 \DeclareOption*{%
   \PassOptionsToClass{\CurrentOption}{article}
@@ -43,8 +48,6 @@
 \RequirePackage{fancyhdr}
 % Needed to manage colors
 \RequirePackage{xcolor}
-% Needed to use \ifxetex-\else-\fi statement
-\RequirePackage{ifxetex}
 % Needed to use \if-\then-\else statement
 \RequirePackage{xifthen}
 % Needed to strip chars from telephone number
@@ -54,11 +57,17 @@
 % Needed to change line spacing in specific environment
 \RequirePackage{setspace}
 % Needed to manage fonts
-\RequirePackage[quiet]{fontspec}
+\if@cvmath
+  \RequirePackage[quiet]{fontspec}
+\else
+  \RequirePackage[quiet,no-math]{fontspec}
+\fi
 % To support LaTeX quoting style
 \defaultfontfeatures{Ligatures=TeX}
 % Needed to manage math fonts
-\RequirePackage{unicode-math}
+\if@cvmath
+  \RequirePackage{unicode-math}
+\fi
 % Needed to use icons from font-awesome
 \RequirePackage{fontawesome6}
 \RequirePackage{accsupp}
@@ -169,8 +178,8 @@
     pdfkeywords={#4}%
   }%
 }
-% Solves issues Warning: File `cv.out' has changed
-\RequirePackage{bookmark}
+% The entrypoints use custom visual sections rather than PDF outline entries;
+% omitting bookmark avoids unnecessary package startup on Overleaf.
 
 %-------------------------------------------------------------------------------
 %                Configuration for directory locations
