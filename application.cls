@@ -256,7 +256,13 @@
 \newcommand*{\entrytitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{cv-darktext} #1}}
 \newcommand*{\entrypositionstyle}[1]{{\fontsize{8pt}{1em}\bodyfont\scshape\color{cv-graytext} #1}}
 \newcommand*{\entrydatestyle}[1]{{\fontsize{8pt}{1em}\bodyfontlight\slshape\color{cv-graytext} #1}}
-\newcommand*{\entrylocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{cv-accent-color} #1}}
+% Keep short locations right-aligned as before, but let longer URLs extend
+% leftward instead of wrapping and increasing the entry row height.
+\newcommand*{\entrylocationstyle}[1]{%
+  \makebox[\linewidth][r]{%
+    \makebox[0pt][r]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{cv-accent-color} #1}}%
+  }%
+}
 \newcommand*{\descriptionstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{cv-text} #1}}
 
 % For elements of subentry
