@@ -54,6 +54,8 @@
 \RequirePackage{xstring}
 % Needed to use a toolbox of programming tools
 \RequirePackage{etoolbox}
+% Needed for commands and environments with genuinely optional content
+\RequirePackage{xparse}
 % Needed to change line spacing in specific environment
 \RequirePackage{setspace}
 % Needed to manage fonts
@@ -744,9 +746,10 @@
 }{%
   \end{center}
 }
-% Define an entry of cv information
-% Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
-\newcommand*{\cventry}[5]{%
+% Define an entry of cv information.  The trailing description is optional;
+% square brackets keep its omission unambiguous when entries are consecutive.
+% Usage: \cventry{<position>}{<title>}{<location>}{<date>}[<description>]
+\NewDocumentCommand{\cventry}{m m m m +o}{%
   \vspace{-2.0mm}
   \setlength\tabcolsep{0pt}
   \setlength{\extrarowheight}{0pt}
@@ -755,9 +758,11 @@
       {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
       {\entrytitlestyle{#2} & \entrylocationstyle{#3} \\
       \entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-    \ifstrempty{#5}
-      {}
-      {\multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}} \\}
+    \IfNoValueF{#5}{%
+      \ifblank{#5}
+        {}
+        {\multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}} \\}%
+    }%
   \end{tabular*}%
 }
 
@@ -824,18 +829,22 @@
   \skilltypestyle{#1} & \leavevmode\skillsetstyle{#2} \\
 }
 
-% Define an environment for cvitems(for cventry)
-\newenvironment{cvitems}{%
-  \vspace{-4.0mm}
-  \begin{justify}
-  \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
-    \setlength{\parskip}{0pt}
-    \renewcommand{\labelitemi}{\bullet}
-}{%
-  \end{itemize}
-  \end{justify}
-  \vspace{1.0mm}
-}
+% Define an environment for cvitems (for cventry).  An empty environment is
+% a real no-op, so a cventry can retain its description slot while carrying
+% no bullet points without inheriting list spacing.
+\NewDocumentEnvironment{cvitems}{+b}{%
+  \ifblank{#1}{}{%
+    \vspace{-4.0mm}
+    \begin{justify}
+    \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
+      \setlength{\parskip}{0pt}
+      \renewcommand{\labelitemi}{\bullet}
+      #1
+    \end{itemize}
+    \end{justify}
+    \vspace{1.0mm}
+  }%
+}{}
 
 
 %-------------------------------------------------------------------------------

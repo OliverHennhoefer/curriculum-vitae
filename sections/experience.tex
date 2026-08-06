@@ -14,17 +14,37 @@
     {Organization} % Organization
     {Location} % Location
     {Dates} % Date(s)
-    {
+    [
       \begin{cvitems}
         \item {Accomplishment with a measurable outcome.}
         \item {Relevant responsibility, technology, or scope.}
       \end{cvitems}
-    }
+    ]
+
+  % No trailing description argument: this entry has no bullet points.
+  \cventry
+    {Research Fellow} % Job title
+    {Example Institute} % Organization
+    {Location} % Location
+    {Dates} % Date(s)
+
+  % Several consecutive roles at one organization.
+  \cventry
+    {Platform Engineering} % Team or function
+    {Example Company} % Organization
+    {Location} % Location
+    {2016--2022} % Overall period
+    [
+      \begin{cvsubentries}
+        \cvsubentry{}{Senior Platform Engineer}{2020--2022}{}
+        \cvsubentry{}{Platform Engineer}{2016--2020}{}
+      \end{cvsubentries}
+    ]
 
 \end{cventries}
 
 % For several roles within one organization, keep one cventry and put this
-% inside its fifth argument:
+% inside its optional description argument:
 % \begin{cvsubentries}
 %   \cvsubentry{}{Earlier role}{Earlier dates}{}
 %   \cvsubentry{}{Later role}{Later dates}{}

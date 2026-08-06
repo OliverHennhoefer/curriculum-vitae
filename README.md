@@ -12,6 +12,16 @@ Example outputs: [curriculum-vitae.pdf](examples/curriculum-vitae.pdf) and [cove
 - `sections/*.tex` - configurable content sections.
 - `application.cls` - shared layout and styling
 
+Entries without bullet points can omit the description argument entirely:
+
+```tex
+\cventry{Role}{Organization}{Location}{Dates}
+```
+
+When bullets are needed, pass the `cvitems` block in the trailing optional
+argument: `\cventry{...}{...}{...}{...}[\begin{cvitems} ... \end{cvitems}]`.
+An empty `cvitems` block collapses automatically.
+
 In `curriculum-vitae.tex`, comment or uncomment sections to create an individual resume, professional CV, or academic CV.
 
 ## Overleaf

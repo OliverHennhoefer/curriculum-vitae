@@ -39,24 +39,32 @@ DEMO_EXPERIENCE = r"""
     {Northstar Systems}
     {Berlin, Germany}
     {2022--Present}
-    {
+    [
       \begin{cvitems}
         \item {Lorem ipsum dolor sit amet, consectetur adipiscing elit; reduced release lead time by 45\% across 30 production services.}
         \item {Designed a Kubernetes and Terraform platform with automated delivery, observability, and self-service environments.}
       \end{cvitems}
-    }
+    ]
 
+  % Demonstrates an entry with no optional description or bullet points.
   \cventry
-    {Platform Engineer}
+    {Technical Advisor}
+    {Independent Consultancy}
+    {Remote}
+    {2021--2022}
+
+  % Demonstrates several consecutive roles at one organization.
+  \cventry
+    {Platform Engineering}
     {Acme Digital}
     {Hamburg, Germany}
-    {2019--2022}
-    {
-      \begin{cvitems}
-        \item {Built reusable CI/CD workflows and infrastructure modules for product teams delivering customer-facing web services.}
-        \item {Introduced service-level objectives and incident reviews, helping reduce mean time to recovery by 35\%.}
-      \end{cvitems}
-    }
+    {2016--2022}
+    [
+      \begin{cvsubentries}
+        \cvsubentry{}{Senior Platform Engineer}{2019--2022}{}
+        \cvsubentry{}{Platform Engineer}{2016--2019}{}
+      \end{cvsubentries}
+    ]
 
 \end{cventries}
 """
@@ -71,11 +79,11 @@ DEMO_EDUCATION = r"""
     {Example University}
     {Berlin, Germany}
     {2017--2019}
-    {
+    [
       \begin{cvitems}
         \item {Thesis: resilient service orchestration for distributed systems.}
       \end{cvitems}
-    }
+    ]
 
 \end{cventries}
 """
@@ -110,11 +118,11 @@ DEMO_PROJECTS = r"""
     {Open Source Delivery Platform}
     {github.com/john-doe/delivery-platform}
     {2023--Present}
-    {
+    [
       \begin{cvitems}
         \item {Lorem ipsum dolor sit amet, consectetur adipiscing elit; built an open-source reference platform with preview environments and documented runbooks.}
       \end{cvitems}
-    }
+    ]
 
 \end{cventries}
 """
