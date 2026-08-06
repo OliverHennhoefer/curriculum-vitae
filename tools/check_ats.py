@@ -44,6 +44,12 @@ REQUIRED_TEXT = {
             "Projects",
             "Certifications",
             "Senior DevOps Engineer",
+            "Technical Advisor",
+            "Acme Digital",
+            "Senior Platform Engineer",
+            "Platform Engineer",
+            "Led platform reliability",
+            "Built shared infrastructure",
             "Lorem ipsum",
         ),
         "cover-letter": (
