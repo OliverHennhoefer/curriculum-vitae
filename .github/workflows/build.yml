@@ -25,13 +25,15 @@ jobs:
             tlmgr install sourcesanspro roboto
             workspace="$PWD"
             demo_dir="$workspace/build/demo-source"
-            python3 tools/prepare_demo.py --output-dir "$demo_dir"
+            # Examples must always be rebuilt from the current demo source.
+            rm -rf "$workspace/build"
             mkdir -p "$workspace/build"
+            python3 tools/prepare_demo.py --output-dir "$demo_dir"
             for document in curriculum-vitae cover-letter; do
               mkdir -p "$workspace/build/$document"
               (
                 cd "$demo_dir"
-                latexmk -lualatex -interaction=nonstopmode -halt-on-error -file-line-error \
+                latexmk -gg -lualatex -interaction=nonstopmode -halt-on-error -file-line-error \
                   -outdir="$workspace/build" \
                   -auxdir="$workspace/build/$document" "$document.tex"
               )
