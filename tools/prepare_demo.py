@@ -231,20 +231,12 @@ def prepare_demo(source: Path, destination: Path) -> None:
 % Use \lettersection{Section title} when a visually separated section is useful.
 \end{cvletter}""",
         r"""\begin{cvletter}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. I am excited to apply
-for the DevOps Engineer position at Acme Cloud GmbH, where I can combine
-platform engineering with a strong focus on reliable developer experiences.
-
-\lettersection{Relevant experience}
-In my current role, I design delivery platforms, improve observability, and
-help teams turn complex operational requirements into repeatable workflows.
-My work balances pragmatic automation with clear documentation and calm,
-blameless incident response.
-
-\lettersection{Motivation}
-Acme Cloud's focus on dependable infrastructure and thoughtful engineering is a
-strong match for my background. I would welcome the opportunity to contribute
-to your platform roadmap and help make reliable delivery the easy path.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
 \end{cvletter}""",
     )
 
