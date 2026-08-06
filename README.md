@@ -22,6 +22,25 @@ When bullets are needed, pass the `cvitems` block in the trailing optional
 argument: `\cventry{...}{...}{...}{...}[\begin{cvitems} ... \end{cvitems}]`.
 An empty `cvitems` block collapses automatically.
 
+For multiple roles at one organization, use `cvmultirole` with one `cvrole`
+per role. Each role can use the same optional `cvitems` block as `cventry`.
+Ordinary `cventry` entries, including entries without bullets, are unaffected.
+
+```tex
+\begin{cvmultirole}{Organization}{Location}
+  \cvrole{Senior Role}{2020--2022}[
+    \begin{cvitems}
+      \item {Accomplishment for this role.}
+    \end{cvitems}
+  ]
+  \cvrole{Earlier Role}{2016--2020}[
+    \begin{cvitems}
+      \item {Accomplishment for the earlier role.}
+    \end{cvitems}
+  ]
+\end{cvmultirole}
+```
+
 In `curriculum-vitae.tex`, comment or uncomment sections to create an individual resume, professional CV, or academic CV.
 
 ## Overleaf

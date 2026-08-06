@@ -28,18 +28,25 @@
     {Location} % Location
     {Dates} % Date(s)
 
-  % Several consecutive roles at one organization.
-  \cventry
-    {Platform Engineering} % Team or function
-    {Example Company} % Organization
-    {Location} % Location
-    {2016--2022} % Overall period
-    [
-      \begin{cvsubentries}
-        \cvsubentry{}{Senior Platform Engineer}{2020--2022}{}
-        \cvsubentry{}{Platform Engineer}{2016--2020}{}
-      \end{cvsubentries}
-    ]
+  % Several roles at one organization: one header, then role + bullets.
+  \begin{cvmultirole}{Example Company}{Location}
+    \cvrole
+      {Senior Platform Engineer}
+      {2020--2022}
+      [
+        \begin{cvitems}
+          \item {Led platform reliability and delivery automation.}
+        \end{cvitems}
+      ]
+    \cvrole
+      {Platform Engineer}
+      {2016--2020}
+      [
+        \begin{cvitems}
+          \item {Built shared infrastructure and developer tooling.}
+        \end{cvitems}
+      ]
+  \end{cvmultirole}
 
 \end{cventries}
 

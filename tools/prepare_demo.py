@@ -53,18 +53,25 @@ DEMO_EXPERIENCE = r"""
     {Remote}
     {2021--2022}
 
-  % Demonstrates several consecutive roles at one organization.
-  \cventry
-    {Platform Engineering}
-    {Acme Digital}
-    {Hamburg, Germany}
-    {2016--2022}
-    [
-      \begin{cvsubentries}
-        \cvsubentry{}{Senior Platform Engineer}{2019--2022}{}
-        \cvsubentry{}{Platform Engineer}{2016--2019}{}
-      \end{cvsubentries}
-    ]
+  % Demonstrates one organization with two roles and their own bullets.
+  \begin{cvmultirole}{Acme Digital}{Hamburg, Germany}
+    \cvrole
+      {Senior Platform Engineer}
+      {2019--2022}
+      [
+        \begin{cvitems}
+          \item {Led platform reliability and delivery automation.}
+        \end{cvitems}
+      ]
+    \cvrole
+      {Platform Engineer}
+      {2016--2019}
+      [
+        \begin{cvitems}
+          \item {Built shared infrastructure and developer tooling.}
+        \end{cvitems}
+      ]
+  \end{cvmultirole}
 
 \end{cventries}
 """

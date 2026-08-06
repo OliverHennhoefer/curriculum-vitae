@@ -766,6 +766,31 @@
   \end{tabular*}%
 }
 
+% Define a dedicated multi-role entry.  This keeps the organization header
+% separate from the role rows and leaves cventry unchanged for normal entries.
+% Usage: \begin{cvmultirole}{<organization>}{<location>}
+%          \cvrole{<role>}{<date>}[<cvitems block>]
+%        \end{cvmultirole}
+\NewDocumentEnvironment{cvmultirole}{m m +b}{%
+  \vspace{-2.0mm}
+  \setlength\tabcolsep{0pt}
+  \setlength{\extrarowheight}{0pt}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+    \entrytitlestyle{#1} & \entrylocationstyle{#2} \\
+    #3%
+  \end{tabular*}%
+}{}
+
+% Define one role within a cvmultirole entry.
+\NewDocumentCommand{\cvrole}{m m +o}{%
+  \entrypositionstyle{#1} & \entrydatestyle{#2} \\
+  \IfNoValueF{#3}{%
+    \ifblank{#3}{}{%
+      \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#3}} \\
+    }%
+  }%
+}
+
 % Define an environment for cvsubentry
 \newenvironment{cvsubentries}{%
   \begin{center}
@@ -838,14 +863,13 @@
     \begin{justify}
     \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
       \setlength{\parskip}{0pt}
-      \renewcommand{\labelitemi}{\bullet}
+      \renewcommand{\labelitemi}{\textbullet}
       #1
     \end{itemize}
     \end{justify}
     \vspace{1.0mm}
   }%
 }{}
-
 
 %-------------------------------------------------------------------------------
 %                Commands for elements of Cover Letter
