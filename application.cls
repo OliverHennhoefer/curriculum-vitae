@@ -285,7 +285,7 @@
 % For elements of the cover letter
 \newcommand*{\lettersectionstyleface}[1]{{\fontsize{14pt}{1em}\bodyfont\bfseries #1}}
 \newcommand*{\lettersectionstyle}[1]{{\color{cv-text}\lettersectionstyleface{#1}}}
-\newcommand*{\recipientaddressstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\scshape\color{cv-graytext} #1}}
+\newcommand{\recipientaddressstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\scshape\color{cv-graytext} #1}}
 \newcommand*{\recipienttitlestyle}[1]{{\fontsize{11pt}{1em}\bodyfont\bfseries\color{cv-darktext} #1}}
 \newcommand*{\lettertitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\bfseries\color{cv-darktext} \underline{#1}}}
 \newcommand*{\letterdatestyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{cv-graytext} #1}}
@@ -900,15 +900,22 @@
 % Define a title of the cover letter
 % Usage: \makelettertitle
 \newcommand*{\makelettertitle}{%
-  \vspace{8.4mm}
-  \setlength\tabcolsep{0pt}
-  \setlength{\extrarowheight}{0pt}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
-    \recipienttitlestyle{\@recipientname} & \letterdatestyle{\@letterdate}
-  \end{tabular*}
-  \begin{singlespace}
-    \recipientaddressstyle{\@recipientaddress} \\\\
-  \end{singlespace}
+  \par\vspace{8.4mm}
+  \begingroup
+    \setlength{\parskip}{0pt}
+    \noindent
+    \begin{minipage}[t]{\dimexpr\textwidth-4.5cm\relax}
+      \raggedright
+      \recipienttitlestyle{\@recipientname}\par
+      \vspace{1mm}
+      \recipientaddressstyle{\@recipientaddress\par}
+    \end{minipage}%
+    \begin{minipage}[t]{4.5cm}
+      \raggedleft
+      \letterdatestyle{\@letterdate}
+    \end{minipage}\par
+  \endgroup
+  \vspace{8mm}
   \ifthenelse{\isundefined{\@lettertitle}}
     {}
     {\lettertitlestyle{\@lettertitle} \\}
